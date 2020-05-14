@@ -8,9 +8,17 @@ RUN apt-get install -y \
     libssl-dev \
     git \
     curl \
-    python-dev
+    python-dev \
+    unzip
 
 RUN sudo pip install setuptools awsebcli awscli
+
+# Ngrok
+
+RUN curl -sL https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip > ngrok.zip
+RUN unzip ngrok.zip
+RUN chmod +x ngrok
+RUN sudo cp ngrok /usr/bin
 
 # Node
 

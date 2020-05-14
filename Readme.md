@@ -8,4 +8,4 @@ docker build -t ectorparking/ector-docker-rn-cp:x.x.x .
 
 # Push
 
-docker push ectorparking/ectorparking/ector-docker-rn-cp:x.x.x
+docker push ectorparking/ector-docker-rn-cp:x.x.x
