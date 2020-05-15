@@ -9,7 +9,8 @@ RUN apt-get install -y \
     git \
     curl \
     python-dev \
-    unzip
+    unzip \
+    openjdk-8-jre
 
 RUN sudo pip install setuptools awsebcli awscli
 
