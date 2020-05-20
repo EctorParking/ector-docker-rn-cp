@@ -10,7 +10,9 @@ RUN apt-get install -y \
     curl \
     python-dev \
     unzip \
-    openjdk-8-jre
+    openjdk-8-jre \
+    openjdk-8-jdk \
+    wget
 
 RUN sudo pip install setuptools awsebcli awscli
 
@@ -29,3 +31,23 @@ RUN npm install -g yarn code-push-cli
 RUN sudo npm install -g sentry-cli-binary --unsafe-perm=true
 RUN node -v
 RUN npm -v
+
+# Android SDK
+
+ARG sdk_version=sdk-tools-linux-4333796.zip
+ARG android_home=/opt/android/sdk
+
+RUN sudo mkdir -p ${android_home} && \
+    wget -O /tmp/${sdk_version} -t 5 "https://dl.google.com/android/repository/${sdk_version}" && \
+    unzip -q /tmp/${sdk_version} -d ${android_home} && \
+    rm /tmp/${sdk_version}
+
+ENV ANDROID_HOME ${android_home}
+ENV ADB_INSTALL_TIMEOUT 120
+ENV PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+
+RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
+
+RUN yes | sdkmanager --licenses && yes | sdkmanager --update
+
+RUN sdkmanager "tools" "platform-tools" "build-tools;28.0.3"
