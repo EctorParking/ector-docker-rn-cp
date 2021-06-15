@@ -25,7 +25,7 @@ RUN sudo cp ngrok /usr/bin
 
 # Node
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN npm install -g yarn code-push-cli
 RUN sudo npm install -g sentry-cli-binary --unsafe-perm=true
@@ -45,6 +45,7 @@ RUN sudo mkdir -p ${android_home} && \
 ENV ANDROID_HOME ${android_home}
 ENV ADB_INSTALL_TIMEOUT 120
 ENV PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
+ENV NODE_OPTIONS=${NODE_OPTIONS} --max_old_space_size=4096
 
 RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
 
