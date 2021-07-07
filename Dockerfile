@@ -3,18 +3,19 @@ FROM ubuntu:18.04
 RUN apt-get update
 RUN apt-get install -y \
     sudo \
-    python-pip \
+    python3-pip \
     build-essential \
     libssl-dev \
     git \
     curl \
-    python-dev \
+    python3-dev \
     unzip \
     openjdk-8-jre \
     openjdk-8-jdk \
     wget
 
-RUN sudo pip install setuptools awsebcli awscli
+RUN sudo pip3 install awscli --upgrade
+RUN sudo pip3 install --upgrade setuptools
 
 # Ngrok
 
@@ -45,7 +46,8 @@ RUN sudo mkdir -p ${android_home} && \
 ENV ANDROID_HOME ${android_home}
 ENV ADB_INSTALL_TIMEOUT 120
 ENV PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
-ENV NODE_OPTIONS=${NODE_OPTIONS} --max_old_space_size=4096
+ENV NODE_OPTIONS --max_old_space_size=4096
+ENV CODE_PUSH_NODE_ARGS --max_old_space_size=4096
 
 RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
 
