@@ -1,20 +1,20 @@
 FROM ubuntu:18.04
 
 RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing \
     sudo \
-    python-pip \
+    python3-pip \
     build-essential \
     libssl-dev \
     git \
     curl \
-    python-dev \
+    python3-dev \
     unzip \
     openjdk-8-jre \
     openjdk-8-jdk \
     wget
 
-RUN sudo pip install setuptools pyrsistent==0.16.1 awsebcli awscli
+RUN sudo pip3 install setuptools pyrsistent==0.16.1 awsebcli==3.10.0 awscli
 
 # Ngrok
 
@@ -25,7 +25,7 @@ RUN sudo cp ngrok /usr/bin
 
 # Node
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN npm install -g yarn code-push-cli
 RUN sudo npm install -g sentry-cli-binary --unsafe-perm=true
@@ -45,7 +45,8 @@ RUN sudo mkdir -p ${android_home} && \
 ENV ANDROID_HOME ${android_home}
 ENV ADB_INSTALL_TIMEOUT 120
 ENV PATH=${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}
-ENV NODE_OPTIONS=${NODE_OPTIONS} --max-old-space-size=4096
+ENV NODE_OPTIONS --max-old-space-size=4096
+ENV CODE_PUSH_NODE_ARGS --max-old-space-size=4096
 
 RUN mkdir ~/.android && echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
 
