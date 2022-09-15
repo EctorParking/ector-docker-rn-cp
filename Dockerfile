@@ -25,7 +25,7 @@ RUN sudo cp ngrok /usr/bin
 
 # Node
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN npm install -g yarn code-push-cli
 RUN sudo npm install -g sentry-cli-binary --unsafe-perm=true
